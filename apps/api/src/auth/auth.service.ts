@@ -203,7 +203,7 @@ export class AuthService {
       client_id: this.configService.get('GOOGLE_CLIENT_ID')!,
       redirect_uri: this.configService.get('GOOGLE_CALLBACK_URL')!,
       response_type: 'code',
-      scope: 'email profile',
+      scope: 'openid email profile',
       access_type: 'offline',
     });
 
