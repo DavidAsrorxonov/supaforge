@@ -1,0 +1,1 @@
+ALTER TABLE "org_members" RENAME COLUMN "updated_at" TO "removed_at";

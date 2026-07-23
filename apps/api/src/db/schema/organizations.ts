@@ -21,7 +21,7 @@ export const orgMembers = pgTable('org_members', {
     .references(() => users.id, { onDelete: 'cascade' }),
   role: orgRoleEnum('role').notNull().default('developer'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  removedAt: timestamp('removed_at'),
 });
 
 export type Organization = typeof organizations.$inferSelect;
