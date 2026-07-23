@@ -260,8 +260,11 @@ export class AuthService {
       'https://github.com/login/oauth/access_token',
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
           client_id: this.configService.get<string>('GITHUB_CLIENT_ID')!,
           client_secret: this.configService.get<string>(
             'GITHUB_CLIENT_SECRET',
@@ -272,7 +275,21 @@ export class AuthService {
       },
     );
 
-    const tokenData = (await tokenRes.json()) as { access_token: string };
+    const tokenData = (await tokenRes.json()) as {
+      access_token?: string;
+      token_type?: string;
+      scope?: string;
+      error?: string;
+      error_description?: string;
+    };
+
+    if (!tokenRes.ok || !tokenData.access_token) {
+      throw new UnauthorizedException(
+        tokenData.error_description ??
+          tokenData.error ??
+          'Failed to obtain GitHub access token',
+      );
+    }
 
     const profileRes = await fetch('https://api.github.com/user', {
       headers: {

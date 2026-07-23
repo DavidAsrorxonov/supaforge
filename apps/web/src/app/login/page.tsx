@@ -45,7 +45,9 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           {state.error && (
-            <div className="bg-destructive/10 text-destructive text-sm px-4 py-3 mb-4"></div>
+            <div className="bg-destructive/10 text-destructive text-sm px-4 py-3 mb-4">
+              {state.error}
+            </div>
           )}
 
           <form
