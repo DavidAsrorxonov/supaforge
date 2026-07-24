@@ -1,8 +1,8 @@
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { AppSidebar } from "../../../templates/app-sidebar";
-import { TopNav } from "../../../templates/top-nav";
 import { retrieveTokenFromCookie } from "@/server-utils/utils";
 import { retrieveMyOrgFromApi } from "@/features/orgs/org-helpers.server";
+import { TopNav } from "@/components/top-nav";
+import { AppSidebar } from "@/components/app-sidebar";
 
 async function getCurrentUser() {
   const token = await retrieveTokenFromCookie();
