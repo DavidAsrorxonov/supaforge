@@ -26,7 +26,7 @@ export class OrgsService {
         updatedAt: organizations.updatedAt,
         role: orgMembers.role,
         projectCount: sql<number>`cast(count(distinct ${projects.id}) as int)`,
-        memberCount: sql<number>`select cast(count(*) as int) from org_members om where om.org_id = ${organizations.id} and om.removed_at is null`,
+        memberCount: sql<number>`(select cast(count(*) as int) from org_members om where om.org_id = ${organizations.id} and om.removed_at is null)`,
       })
       .from(orgMembers)
       .innerJoin(organizations, eq(orgMembers.orgId, organizations.id))
