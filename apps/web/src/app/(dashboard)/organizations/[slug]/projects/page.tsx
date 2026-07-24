@@ -1,7 +1,16 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { retrieveOrgBySlugFromApi } from "@/features/orgs/org-helpers.server";
 
-export default async function ProjectsPage() {
+export default async function ProjectsPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+
+  const org = await retrieveOrgBySlugFromApi(slug);
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -15,7 +24,7 @@ export default async function ProjectsPage() {
       {/* Empty state */}
       <div className="flex flex-col items-center justify-center py-24 text-center border border-dashed border-border rounded-xl">
         <p className="text-muted-foreground text-sm">
-          No projects yet in {"ORGANIZATION NAME"}
+          No projects yet in {org.name}
         </p>
         <p className="text-muted-foreground text-xs mt-1">
           Create your first project to get started
