@@ -70,7 +70,7 @@ export class InviteService {
     const inviteUrl = `${this.configService.get<string>('API_URL')}/auth/invite/accept?token=${token}`;
 
     await this.resend.emails.send({
-      from: 'Supaforge <noreply@dovudkhon.com>',
+      from: 'Supaforge <noreply@noreply.dovudkhon.com>',
       to: email,
       subject: `You have been invited to join ${org.name} on Supaforge`,
       html: `
