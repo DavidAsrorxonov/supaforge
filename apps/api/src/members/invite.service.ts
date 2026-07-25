@@ -79,7 +79,7 @@ export class InviteService {
                 <p>Someone has invited you to collaborate on Supaforge.</p>
                 <a
                     href="${inviteUrl}"
-                    styles="display: inline-block; background: #000; color: #fff; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 16px 0"
+                    style="display: inline-block; background: #000; color: #fff; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 16px 0"
                 >
                 Accept invite
                 </a>

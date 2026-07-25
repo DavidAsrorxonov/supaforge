@@ -6,8 +6,8 @@ import { MembersController } from './members.controller';
 
 @Module({
   imports: [JwtModule.register({})],
-  controllers: [MembersService, InviteService],
-  providers: [MembersController],
+  controllers: [MembersController],
+  providers: [MembersService, InviteService],
   exports: [InviteService],
 })
 export class MembersModule {}
