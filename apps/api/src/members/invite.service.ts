@@ -67,7 +67,7 @@ export class InviteService {
       },
     );
 
-    const inviteUrl = `${this.configService.get('WEB_URL')}/invite/accept?token=${token}`;
+    const inviteUrl = `${this.configService.get<string>('API_URL')}/auth/invite/accept?token=${token}`;
 
     await this.resend.emails.send({
       from: 'Supaforge <noreply@dovudkhon.com>',
