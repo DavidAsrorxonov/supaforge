@@ -18,6 +18,7 @@ export default async function ProjectsPage({
     retrieveProjectsFromApi(slug),
   ]);
 
+  console.log("PROJECTS", projects);
   const isAdmin = org.role === ORG_ROLES.ADMIN;
   // const org = await retrieveOrgBySlugFromApi(slug);
 
@@ -38,20 +39,25 @@ export default async function ProjectsPage({
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {projects.map((pr) => (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
             <Link
-              key={pr.id}
-              href={`/organizations/${slug}/${pr.slug}/database`}
-              className="flex items-center gap-4 p-5 border border-border bg-background hover:bg-accent transition-colors"
+              key={project.id}
+              href={`/organizations/${slug}/${project.slug}/database`}
+              className="group flex min-w-0 items-center gap-4 border border-border bg-card p-5 transition-colors hover:bg-accent"
             >
-              <div className="w-10 bg-muted flex items-center justify-center shrink-0">
-                <Database size={18} className="text-muted-foreground" />
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted">
+                <Database
+                  size={18}
+                  className="text-muted-foreground transition-colors group-hover:text-foreground"
+                />
               </div>
-              <div className="min-w-0">
-                <p className="font-medium text-sm truncate">{pr.name}</p>
-                <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                  {pr.projectUrl}
+
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium">{project.name}</p>
+
+                <p className="mt-1 truncate text-xs text-muted-foreground">
+                  {project.slug || "No project slug"}
                 </p>
               </div>
             </Link>

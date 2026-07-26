@@ -41,10 +41,14 @@ export function CreateProjectModal({ slug }: CreateProjectModalProps) {
     defaultValues: { name: "" },
   });
 
-  if (state.success && open) {
+  const { reset } = form;
+
+  React.useEffect(() => {
+    if (!state.success) return;
+
     setOpen(false);
-    form.reset();
-  }
+    reset();
+  }, [state, reset]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

@@ -26,10 +26,7 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar orgs={orgs} user={user} />
-      <SidebarInset>
-        <TopNav />
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
-      </SidebarInset>
+      <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
   );
 }
