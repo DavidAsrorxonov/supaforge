@@ -74,6 +74,6 @@ export async function membersAction(
       }
     }
   } catch (err) {
-    return { error: "Something went wrong" };
+    return { error: "Cannot remove or denote the last admin" };
   }
 }
