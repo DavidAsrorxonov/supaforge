@@ -18,7 +18,7 @@ export default async function ProjectsPage({
     retrieveProjectsFromApi(slug),
   ]);
 
-  console.log("PROJECTS", projects);
+  // console.log("PROJECTS", projects);
   const isAdmin = org.role === ORG_ROLES.ADMIN;
   // const org = await retrieveOrgBySlugFromApi(slug);
 
