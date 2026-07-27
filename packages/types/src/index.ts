@@ -98,7 +98,14 @@ export interface ProjectWithOrg extends Project {
 }
 
 export type ColumnType =
-  "text" | "integer" | "boolean" | "timestamp" | "uuid" | "jsonb" | "numeric";
+  | "text"
+  | "integer"
+  | "boolean"
+  | "timestamp"
+  | "uuid"
+  | "jsonb"
+  | "numeric"
+  | "bigint";
 
 export interface TableColumn {
   name: string;
