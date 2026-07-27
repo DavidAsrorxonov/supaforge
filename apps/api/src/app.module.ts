@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { OrgsModule } from './orgs/orgs.module';
 import { MembersModule } from './members/members.module';
 import { ProjectsModule } from './projects/projects.module';
+import { TableEditorModule } from './table-editor/table-editor.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProjectsModule } from './projects/projects.module';
     OrgsModule,
     MembersModule,
     ProjectsModule,
+    TableEditorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
