@@ -26,11 +26,16 @@ export const COLUMN_TYPES = [
   "numeric",
 ];
 
-export const TABLE_EDITOR_INTENT = {
+type TableEditorIntentMap = {
+  CREATE_TABLE: "CREATE_TABLE";
+  DELETE_TABLE: "DELETE_TABLE";
+  FETCH_TABLE: "FETCH_TABLE";
+};
+
+export const TABLE_EDITOR_INTENT: TableEditorIntentMap = {
   CREATE_TABLE: "CREATE_TABLE",
   DELETE_TABLE: "DELETE_TABLE",
   FETCH_TABLE: "FETCH_TABLE",
 };
-
 export type TableEditorIntent =
   (typeof TABLE_EDITOR_INTENT)[keyof typeof TABLE_EDITOR_INTENT];

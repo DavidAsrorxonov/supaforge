@@ -20,7 +20,7 @@ export const createTableSchema = z.object({
 }) satisfies z.ZodType<CreateTableInput>;
 
 export const fetchTableSchema = z.object({
-  name: z.string().min(1, "Table name is required"),
+  tableName: z.string().min(1, "Table name is required"),
 });
 
 export const deleteTableSchema = z.object({
