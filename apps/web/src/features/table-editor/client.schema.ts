@@ -26,3 +26,13 @@ export const fetchTableSchema = z.object({
 export const deleteTableSchema = z.object({
   tableName: z.string().min(1, "Table name is required"),
 });
+
+export const addColumnSchema = z.object({
+  tableName: z.string().min(1, "Table name is required"),
+  name: z
+    .string()
+    .min(1, "Column name is required")
+    .regex(/^[a-zA-Z_][a-zA-Z0-9_]*$/, "Invalid column name"),
+  type: z.enum(COLUMN_TYPES),
+  defaultValue: z.string().optional(),
+});

@@ -31,10 +31,6 @@ function basePath(orgSlug: string, projectSlug: string) {
   return `/orgs/${orgSlug}/projects/${projectSlug}/tables`;
 }
 
-function revalidateDatabase(orgSlug: string, projectSlug: string) {
-  revalidatePath(`/organizations/${orgSlug}/${projectSlug}/database`);
-}
-
 export async function tableEditorAction(
   { orgSlug, projectSlug }: TableEditorCtx,
   _prev: TableEditorActionState,
@@ -56,14 +52,16 @@ export async function tableEditorAction(
       case TABLE_EDITOR_INTENT.CREATE_TABLE: {
         const { name, columns } = parsed.data;
         await apiClient.post(base, { name, columns }, opts);
-        revalidateDatabase(orgSlug, projectSlug);
+        // revalidatePath(`/organizations/${orgSlug}/projects/${projectSlug}`);
+        // revalidateDatabase(orgSlug, projectSlug);
         return { success: "Table created", tableName: name };
       }
 
       case TABLE_EDITOR_INTENT.DELETE_TABLE: {
         const { tableName } = parsed.data;
         await apiClient.delete(`${base}/${tableName}`, opts);
-        revalidateDatabase(orgSlug, projectSlug);
+        // revalidatePath(`/organizations/${orgSlug}/projects/${projectSlug}`);
+        // revalidateDatabase(orgSlug, projectSlug);
         return { success: "Table deleted", tableName };
       }
 
@@ -85,6 +83,16 @@ export async function tableEditorAction(
           },
           tableName,
         };
+      }
+
+      case TABLE_EDITOR_INTENT.ADD_COLUMN: {
+        const { tableName, name, type, defaultValue } = parsed.data;
+        await apiClient.patch(
+          `${base}/${tableName}/columns`,
+          { name, type, defaultValue: defaultValue || undefined },
+          opts,
+        );
+        return { success: "Column added", tableName };
       }
 
       default: {

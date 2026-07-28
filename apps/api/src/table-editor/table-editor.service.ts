@@ -102,6 +102,20 @@ export class TableEditorService {
     return row.dbSchema;
   }
 
+  private isMissingTableError(err: unknown): boolean {
+    const code =
+      err &&
+      typeof err === 'object' &&
+      'cause' in err &&
+      err.cause &&
+      typeof err.cause === 'object' &&
+      'code' in err.cause
+        ? String(err.cause.code)
+        : null;
+
+    return code === '42P01';
+  }
+
   async getTables(orgSlug: string, projectSlug: string): Promise<string[]> {
     const schema = await this.getProjectSchema(orgSlug, projectSlug);
 
@@ -178,22 +192,29 @@ export class TableEditorService {
     this.assertSafeIdentifier(tableName, 'table name');
     const schema = await this.getProjectSchema(orgSlug, projectSlug);
 
-    const safeLimit = this.assertSafePagination(limit, 'limit', 1000);
-    const safeOffset = this.assertSafePagination(offset, 'offset');
+    try {
+      const safeLimit = this.assertSafePagination(limit, 'limit', 1000);
+      const safeOffset = this.assertSafePagination(offset, 'offset');
 
-    const [rowsResult, countResult] = await Promise.all([
-      this.drizzle.db.execute<Record<string, unknown>>(
-        `SELECT * FROM "${schema}"."${tableName}" LIMIT ${safeLimit} OFFSET ${safeOffset}`,
-      ),
-      this.drizzle.db.execute<{ count: string }>(
-        `SELECT COUNT(*) as count FROM "${schema}"."${tableName}"`,
-      ),
-    ]);
+      const [rowsResult, countResult] = await Promise.all([
+        this.drizzle.db.execute<Record<string, unknown>>(
+          `SELECT * FROM "${schema}"."${tableName}" LIMIT ${safeLimit} OFFSET ${safeOffset}`,
+        ),
+        this.drizzle.db.execute<{ count: string }>(
+          `SELECT COUNT(*) as count FROM "${schema}"."${tableName}"`,
+        ),
+      ]);
 
-    return {
-      rows: rowsResult.rows,
-      count: parseInt(countResult.rows[0]?.count ?? '0', 10),
-    };
+      return {
+        rows: rowsResult.rows,
+        count: parseInt(countResult.rows[0]?.count ?? '0', 10),
+      };
+    } catch (err) {
+      if (this.isMissingTableError(err)) {
+        throw new NotFoundException(`Table "${tableName}" not found`);
+      }
+      throw err;
+    }
   }
 
   async createTable(

@@ -15,7 +15,7 @@ import { TableEditorService } from './table-editor.service';
 import { CreateTableDto } from './dto/create-table.dto';
 import { AddColumnDto } from './dto/alter-table.dto';
 
-@Controller('orgs/:orgSlug/projects/:projectSlug/tables')
+@Controller('orgs/:slug/projects/:projectSlug/tables')
 @UseGuards(JwtAuthGuard, OrgRoleGuard)
 export class TableEditorController {
   constructor(private tableEditorService: TableEditorService) {}

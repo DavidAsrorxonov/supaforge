@@ -1,6 +1,7 @@
 import { TABLE_EDITOR_INTENT } from "@supaforge/constants";
 import { z } from "zod";
 import {
+  addColumnSchema,
   createTableSchema,
   deleteTableSchema,
   fetchTableSchema,
@@ -34,5 +35,9 @@ export const tableEditorServerSchema = z.discriminatedUnion("intent", [
   z.object({
     intent: z.literal(TABLE_EDITOR_INTENT.FETCH_TABLE),
     ...fetchTableSchema.shape,
+  }),
+  z.object({
+    intent: z.literal(TABLE_EDITOR_INTENT.ADD_COLUMN),
+    ...addColumnSchema.shape,
   }),
 ]);

@@ -19,7 +19,9 @@ export async function retrieveTablesFromApi(
   try {
     const { data } = await apiClient.get<string[]>(
       `/orgs/${orgSlug}/projects/${projectSlug}/tables`,
-      authHeaders(token),
+      {
+        headers: { Cookie: `${COOKIE_KEYS.ACCESS_TOKEN}=${token}` },
+      },
     );
 
     return data;
@@ -37,7 +39,7 @@ export async function retrieveProjectDbSchema(
   try {
     const { data } = await apiClient.get<{ projects: Project }>(
       `/orgs/${orgSlug}/projects/${projectSlug}`,
-      authHeaders(token),
+      { headers: { Cookie: `${COOKIE_KEYS.ACCESS_TOKEN}=${token}` } },
     );
 
     return data.projects.dbSchema;
