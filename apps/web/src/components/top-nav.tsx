@@ -28,7 +28,7 @@ export function TopNav({ projects }: TopNavProps) {
   return (
     <header className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
       <SidebarTrigger className="-ml-1" />
-      <Separator orientation="vertical" className="mr-2 h-4" />
+      <Separator orientation="vertical" className="mr-2 h-full" />
 
       {/* Project switcher — placeholder */}
       {params?.slug && (
@@ -38,6 +38,7 @@ export function TopNav({ projects }: TopNavProps) {
               <span className="text-sm">
                 {currentProject?.name ?? "Select project"}
               </span>
+              <ChevronsUpDown size={14} />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56">

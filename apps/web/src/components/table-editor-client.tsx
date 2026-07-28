@@ -44,6 +44,7 @@ import {
   Table2,
   X,
   ChevronLeft,
+  Link,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { TableInfo } from "@supaforge/types";
@@ -51,6 +52,7 @@ import { TABLE_EDITOR_INTENT } from "@supaforge/constants";
 import { tableEditorAction } from "@/features/table-editor/actions";
 import { CreateTableDrawer } from "./create-table-drawer";
 import { AddColumnDialog } from "./add-column-dialog";
+import { PrimaryKey } from "./icons/primary-key";
 
 interface TableEditorClientProps {
   orgSlug: string;
@@ -630,8 +632,8 @@ function DataGrid({
         id: col.name,
         header: () => (
           <div className="flex items-center gap-1.5">
-            {col.isPrimaryKey && <span className="text-yellow-500">🔑</span>}
-            {col.foreignKey && <span className="text-blue-500">🔗</span>}
+            {col.isPrimaryKey && <PrimaryKey className="text-primary" />}
+            {col.foreignKey && <Link className="text-primary" size={14} />}
             <span className="font-medium">{col.name}</span>
             <span className="text-muted-foreground font-normal">
               {col.type}

@@ -93,7 +93,7 @@ export function AppSidebar({ orgs, user }: AppSidebarProps) {
                       className="flex items-center justify-between"
                     >
                       <span>{org.name}</span>
-                      {params?.slug && <Check size={14} />}
+                      {org.slug === currentOrg.slug && <Check size={14} />}
                     </Link>
                   </DropdownMenuItem>
                 ))}
