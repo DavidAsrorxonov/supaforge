@@ -108,7 +108,10 @@ export function AddColumnDialog({
       >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Add column to {tableName}</DialogTitle>
+            <DialogTitle>
+              Add column to{" "}
+              <span className="font-mono text-primary">{tableName}</span> table
+            </DialogTitle>
             <DialogDescription>
               Adds a new column to this table via{" "}
               <span className="font-mono">ALTER TABLE ... ADD COLUMN</span>.

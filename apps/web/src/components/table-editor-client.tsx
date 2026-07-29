@@ -53,6 +53,7 @@ import { tableEditorAction } from "@/features/table-editor/actions";
 import { CreateTableDrawer } from "./create-table-drawer";
 import { AddColumnDialog } from "./add-column-dialog";
 import { PrimaryKey } from "./icons/primary-key";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 interface TableEditorClientProps {
   orgSlug: string;
@@ -632,8 +633,30 @@ function DataGrid({
         id: col.name,
         header: () => (
           <div className="flex items-center gap-1.5">
-            {col.isPrimaryKey && <PrimaryKey className="text-primary" />}
-            {col.foreignKey && <Link className="text-primary" size={14} />}
+            {col.isPrimaryKey && (
+              <Tooltip>
+                <TooltipTrigger>
+                  <PrimaryKey className="text-primary" />
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>Primary key</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+            {col.foreignKey && (
+              <Tooltip>
+                <TooltipTrigger>
+                  <Link className="text-primary" size={14} />
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="flex flex-col">
+                  <p className="text-xs">Foreign key relation</p>
+                  <p className="text-xs">
+                    {col.name} → {col.foreignKey.table}
+                  </p>
+                  <p className="text-xs">ON DELETE: CASCADE</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
             <span className="font-medium">{col.name}</span>
             <span className="text-muted-foreground font-normal">
               {col.type}
