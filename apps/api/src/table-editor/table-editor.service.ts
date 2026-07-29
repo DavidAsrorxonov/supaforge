@@ -10,18 +10,11 @@ import { eq, and } from 'drizzle-orm';
 import { CreateTableDto } from './dto/create-table.dto';
 import { AddColumnDto } from './dto/alter-table.dto';
 import { sql } from 'drizzle-orm';
+import { assertSafeIdentifier } from '../common/assert-safe-identifier';
 
 @Injectable()
 export class TableEditorService {
   constructor(private drizzle: DrizzleService) {}
-
-  private assertSafeIdentifier(name: string, label: string): void {
-    if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name)) {
-      throw new BadRequestException(
-        `${label} must be a valid identifier. Current value: ${name}`,
-      );
-    }
-  }
 
   private assertSafePagination(
     value: number,
@@ -131,7 +124,7 @@ export class TableEditorService {
     projectSlug: string,
     tableName: string,
   ): Promise<TableInfo> {
-    this.assertSafeIdentifier(tableName, 'table name');
+    assertSafeIdentifier(tableName, 'table name');
     const schema = await this.getProjectSchema(orgSlug, projectSlug);
 
     const columnResult = await this.drizzle.db.execute<{
@@ -189,7 +182,7 @@ export class TableEditorService {
     limit = 100,
     offset = 0,
   ): Promise<{ rows: Record<string, unknown>[]; count: number }> {
-    this.assertSafeIdentifier(tableName, 'table name');
+    assertSafeIdentifier(tableName, 'table name');
     const schema = await this.getProjectSchema(orgSlug, projectSlug);
 
     try {
@@ -222,7 +215,7 @@ export class TableEditorService {
     projectSlug: string,
     dto: CreateTableDto,
   ): Promise<void> {
-    this.assertSafeIdentifier(dto.name, 'table name');
+    assertSafeIdentifier(dto.name, 'table name');
 
     if (!dto.columns || dto.columns.length === 0) {
       throw new BadRequestException(
@@ -235,14 +228,14 @@ export class TableEditorService {
     const pkCols = dto.columns.filter((col) => col.isPrimaryKey);
 
     const columnDefs = dto.columns.map((col) => {
-      this.assertSafeIdentifier(col.name, 'column name');
+      assertSafeIdentifier(col.name, 'column name');
 
       if (col.foreignKeyTable) {
-        this.assertSafeIdentifier(col.foreignKeyTable, 'foreign key table');
+        assertSafeIdentifier(col.foreignKeyTable, 'foreign key table');
       }
 
       if (col.foreignKeyColumn) {
-        this.assertSafeIdentifier(col.foreignKeyColumn, 'foreign key column');
+        assertSafeIdentifier(col.foreignKeyColumn, 'foreign key column');
       }
 
       const parts: string[] = [];
@@ -290,7 +283,7 @@ export class TableEditorService {
     projectSlug: string,
     tableName: string,
   ): Promise<void> {
-    this.assertSafeIdentifier(tableName, 'table name');
+    assertSafeIdentifier(tableName, 'table name');
     const schema = await this.getProjectSchema(orgSlug, projectSlug);
     await this.drizzle.db.execute(
       `DROP TABLE IF EXISTS "${schema}"."${tableName}"`,
@@ -303,8 +296,8 @@ export class TableEditorService {
     tableName: string,
     dto: AddColumnDto,
   ): Promise<void> {
-    this.assertSafeIdentifier(tableName, 'table name');
-    this.assertSafeIdentifier(dto.name, 'column name');
+    assertSafeIdentifier(tableName, 'table name');
+    assertSafeIdentifier(dto.name, 'column name');
 
     const schema = await this.getProjectSchema(orgSlug, projectSlug);
 
@@ -324,8 +317,8 @@ export class TableEditorService {
     tableName: string,
     columnName: string,
   ): Promise<void> {
-    this.assertSafeIdentifier(tableName, 'table name');
-    this.assertSafeIdentifier(columnName, 'column name');
+    assertSafeIdentifier(tableName, 'table name');
+    assertSafeIdentifier(columnName, 'column name');
 
     const schema = await this.getProjectSchema(orgSlug, projectSlug);
 
@@ -342,8 +335,8 @@ export class TableEditorService {
     pkValue: string,
     updates: Record<string, unknown>,
   ): Promise<void> {
-    this.assertSafeIdentifier(tableName, 'table name');
-    this.assertSafeIdentifier(pkColumn, 'primary key column');
+    assertSafeIdentifier(tableName, 'table name');
+    assertSafeIdentifier(pkColumn, 'primary key column');
 
     if (Object.keys(updates).length === 0) {
       throw new BadRequestException(
@@ -352,7 +345,7 @@ export class TableEditorService {
     }
 
     Object.keys(updates).forEach((col) => {
-      this.assertSafeIdentifier(col, 'column name');
+      assertSafeIdentifier(col, 'column name');
     });
 
     const schema = await this.getProjectSchema(orgSlug, projectSlug);

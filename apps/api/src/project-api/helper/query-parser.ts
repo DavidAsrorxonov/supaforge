@@ -4,6 +4,7 @@ import {
   FilterOperator,
   RESERVED_QUERY_PARAMS,
 } from '@supaforge/constants';
+import { assertSafeIdentifier } from '../../common/assert-safe-identifier';
 
 export interface ParsedQuery {
   select: string[];
@@ -22,14 +23,6 @@ interface FilterClause {
 interface OrderClause {
   column: string;
   direction: 'ASC' | 'DESC';
-}
-
-function assertSafeIdentifier(name: string, label: string): void {
-  if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name)) {
-    throw new BadRequestException(
-      `${label} must be a valid identifier. Current value: ${name}`,
-    );
-  }
 }
 
 function formatSQLValue(operator: string, rawValue: string): string {
