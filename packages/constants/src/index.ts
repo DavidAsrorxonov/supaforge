@@ -35,3 +35,23 @@ export const TABLE_EDITOR_INTENT = {
 
 export type TableEditorIntent =
   (typeof TABLE_EDITOR_INTENT)[keyof typeof TABLE_EDITOR_INTENT];
+
+export const RESERVED_QUERY_PARAMS = new Set([
+  "select",
+  "order",
+  "limit",
+  "offset",
+]);
+
+export const FILTER_OPERATORS = {
+  eq: "=",
+  neq: "!=",
+  gt: ">",
+  gte: ">=",
+  lt: "<",
+  lte: "<=",
+  ilike: "ILIKE",
+  is: "IS",
+} as const;
+
+export type FilterOperator = keyof typeof FILTER_OPERATORS;

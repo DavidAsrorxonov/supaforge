@@ -34,6 +34,7 @@ export interface Project {
   dbSchema: string;
   projectUrl: string;
   anonKey: string;
+  serviceRoleKey: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -137,4 +138,27 @@ export interface CreateColumnInput {
 export interface CreateTableInput {
   name: string;
   columns: CreateColumnInput[];
+}
+
+export interface ProjectAPIEndpoint {
+  method: "GET" | "POST" | "PATCH" | "DELETE";
+  path: string;
+  description: string;
+  example: string;
+}
+
+export interface ProjectAPIDocs {
+  projectUrl: string;
+  anonKey: string;
+  serviceRoleKey: string;
+  tables: {
+    name: string;
+    endpoints: ProjectAPIEndpoint[];
+  }[];
+}
+
+export interface ProjectBySlugResponse {
+  projects: Project;
+  organizations: Organization;
+  org_members: OrgMember;
 }
